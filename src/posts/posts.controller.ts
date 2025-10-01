@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe, Query, Post, HttpCode, HttpStatus, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query, Post, ValidationPipe, HttpCode, HttpStatus, Body, Put, Delete, UsePipes } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import type { Post as PostInterface } from './interfaces/post.interface';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -24,6 +24,12 @@ export class PostsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @UsePipes(
+    new ValidationPipe({
+      whitelist: true, // Strip properties that do not have any decorators
+      forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are present 
+    })
+  )
   create(@Body() createPostData: CreatePostDto): PostInterface {
     return this.postsService.create(createPostData);
   }
