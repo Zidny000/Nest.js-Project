@@ -24,12 +24,12 @@ export class PostsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @UsePipes(
-    new ValidationPipe({
-      whitelist: true, // Strip properties that do not have any decorators
-      forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are present 
-    })
-  )
+  // @UsePipes(
+  //   new ValidationPipe({
+  //     whitelist: true, // Strip properties that do not have any decorators
+  //     forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are present 
+  //   })
+  // )
   create(@Body() createPostData: CreatePostDto): PostInterface {
     return this.postsService.create(createPostData);
   }
