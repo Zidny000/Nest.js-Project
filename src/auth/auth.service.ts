@@ -71,6 +71,17 @@ export class AuthService {
     return { user: result, ...tokens, ...tokens };
   }
 
+  async getUserById(id: number){
+    const user = await this.usersRepository.findOne({
+      where : {id}
+    })
+    if(!user){
+      throw new UnauthorizedException('User not found')
+    }
+    const { password, ...result } = user;
+    return result;
+  }
+
   private async hashPassword(password: string): Promise<string> {
     const saltRounds = 10;
     return bcrypt.hash(password, saltRounds);
