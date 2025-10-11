@@ -68,7 +68,7 @@ export class AuthService {
     }
     const tokens = this.generateTokens(user);
     const { password, ...result } = user;
-    return { user: result, ...tokens, ...tokens };
+    return { user: result, ...tokens };
   }
 
   async getUserById(id: number){
@@ -134,7 +134,7 @@ export class AuthService {
         throw new UnauthorizedException('Invalid token')
       }
 
-      const accessToken = this.generateTokens(user);
+      const { accessToken } = this.generateTokens(user);
       return { accessToken };
 
     }catch(e){
